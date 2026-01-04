@@ -7,18 +7,22 @@ include(CMakePushCheckState)
 include(CheckSymbolExists)
 include(CheckTypeSize)
 
-# options in AC counterpart can be overriden from command-line
-# e.g.:  cmake .. -DFFI_MMAP_EXEC_EMUTRAMP_PAX=1 -DVERSION=X.Y
-if(NOT DEFINED VERSION)
-    set(VERSION 3.x-dev)
+# Version is parsed from configure.ac in CMakeLists.txt
+# This maintains configure.ac as the single source of truth for version information
+if(NOT DEFINED FFI_VERSION_STRING)
+    set(FFI_VERSION_STRING "${LIBFFI_VERSION}")
+endif()
+if(NOT DEFINED FFI_VERSION_NUMBER)
+    set(FFI_VERSION_NUMBER "${LIBFFI_VERSION_NUMBER}")
 endif()
 set(PACKAGE libffi)
 set(PACKAGE_BUGREPORT http://github.com/libffi/libffi/issues)
 set(PACKAGE_NAME ${PACKAGE})
-set(PACKAGE_STRING "${PACKAGE} ${VERSION}")
+set(PACKAGE_STRING "${PACKAGE} ${FFI_VERSION_STRING}")
 set(PACKAGE_TARNAME ${PACKAGE})
 set(PACKAGE_URL http://github.com/libffi/libffi)
-set(PACKAGE_VERSION ${VERSION})
+set(PACKAGE_VERSION ${FFI_VERSION_STRING})
+set(VERSION ${FFI_VERSION_STRING})
 set(TARGET ${TARGET_PLATFORM})
 set(LT_OBJDIR .libs/)
 
