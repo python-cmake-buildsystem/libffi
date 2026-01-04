@@ -1,5 +1,13 @@
 cmake_minimum_required(VERSION 3.13.5)
-project(libffi C)
+
+# Parse version from configure.ac to maintain single source of truth
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/configure.ac" CONFIGURE_AC_CONTENTS)
+string(REGEX MATCH "FFI_VERSION_STRING=\"([0-9]+\.[0-9]+\.[0-9]+)\"" _ "${CONFIGURE_AC_CONTENTS}")
+set(LIBFFI_VERSION "${CMAKE_MATCH_1}")
+string(REGEX MATCH "FFI_VERSION_NUMBER=([0-9]+)" _ "${CONFIGURE_AC_CONTENTS}")
+set(LIBFFI_VERSION_NUMBER "${CMAKE_MATCH_1}")
+
+project(libffi VERSION ${LIBFFI_VERSION} LANGUAGES C)
 
 set(SOURCES_LIST
     src/closures.c
